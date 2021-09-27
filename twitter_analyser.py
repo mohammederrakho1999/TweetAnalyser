@@ -3,11 +3,11 @@ import json
 from datetime import datetime, timedelta
 
 
-# auth = tweepy.OAuthHandler("stJusTSACYyU5lMyivVkmwWux",
-#                          "0wIWRZXxS45X814EHlaFWEtrtHxUBIaByAqi23TnRsZIMk0uma")
+# auth = tweepy.OAuthHandler("stJusTSACYyU5",
+#                          "0wIWRZXxS45X814EHlaF")
 
-# auth.set_access_token("1378006195034853377-8hpe1xq0OAjkLPvYrlWJ5qh7vMIw9u",
-#                     "IgPePoo3BmT3KplFD7abTKMnjd9nNcfUHvVbjmG8LtN8H")
+# auth.set_access_token("1378006195034853377-8hpe1x",
+#                     "IgPePoo3BmT3KplFD7abT")
 
 
 # api = tweepy.API(auth, wait_on_rate_limit=True,
@@ -53,11 +53,11 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler("stJusTSACYyU5lMyivVkmwWux",
-                           "0wIWRZXxS45X814EHlaFWEtrtHxUBIaByAqi23TnRsZIMk0uma")
+auth = tweepy.OAuthHandler("stJusTSACYyU",
+                           "0wIWRZXxS45X814EHlaFWEtrtHxUBIaB")
 
-auth.set_access_token("1378006195034853377-8hpe1xq0OAjkLPvYrlWJ5qh7vMIw9u",
-                      "IgPePoo3BmT3KplFD7abTKMnjd9nNcfUHvVbjmG8LtN8H")
+auth.set_access_token("1378006195034853377-8hpe1xq0",
+                      "IgPePoo3BmT3KplFD7abTKMnjd9n")
 
 # Create API object
 api = tweepy.API(auth, wait_on_rate_limit=True,
