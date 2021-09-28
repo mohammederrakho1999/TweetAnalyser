@@ -1,26 +1,26 @@
 import tweepy
 import json
 from datetime import datetime, timedelta
+from s3_module import *
+import pandas as pd
+import os
+import os.path
 
 
-# auth = tweepy.OAuthHandler("stJusTSACYyU5",
-#                          "0wIWRZXxS45X814EHlaF")
+def helper(dir):
+    count = 0
+    for path in os.listdir(dir):
+        if os.path.isfile(os.path.join(dir, path)):
+            count += 1
+    return count
 
-# auth.set_access_token("1378006195034853377-8hpe1x",
-#                     "IgPePoo3BmT3KplFD7abT")
-
-
-# api = tweepy.API(auth, wait_on_rate_limit=True,
-# wait_on_rate_limit_notify=True)
-
-
-#timeline = api.home_timeline()
-# for tweet in timeline:
-#print(f"{tweet.user.name} said {tweet.text}")
 
 def tweet_to_df(tweet):
     """take raw tweet receveid from stream into dataframe.
     """
+
+    count = helper("./data")
+
     dict_ = {}
     dict_["text"] = tweet.text
     dict_["user"] = tweet.user.description
@@ -33,7 +33,9 @@ def tweet_to_df(tweet):
     dict_["tweet_date"] = tweet.created_at
     dict_["nb_retweeted"] = tweet.retweet_count
     dict_["tweet coordinates"] = tweet.coordinates
-    return dict_
+
+    tweet_data = pd.DataFrame(dict_, index=[0])
+    return tweet_data.to_csv(f"C:/Users/info/Desktop/projects/tweetanalyser/data/{count+1}.csv")
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -45,19 +47,19 @@ class MyStreamListener(tweepy.StreamListener):
         # print(f"{tweet.user.name}:{tweet.text}")
         print(tweet)
         print("_"*80)
-        dict_ = tweet_to_df(tweet)
-        print(dict_)
+        tweet_to_df(tweet)
+        # upload_file(dict_)
 
     def on_error(self, status):
         print("Error detected")
 
 
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler("stJusTSACYyU",
-                           "0wIWRZXxS45X814EHlaFWEtrtHxUBIaB")
+auth = tweepy.OAuthHandler("stJusTSACYyU5lMy*****",
+                           "0wIWRZXxS45X814EH***")
 
-auth.set_access_token("1378006195034853377-8hpe1xq0",
-                      "IgPePoo3BmT3KplFD7abTKMnjd9n")
+auth.set_access_token("1378006195034853377-8hpe1xq0**",
+                      "IgPePoo3BmT3KplFD7abTKMnjd***")
 
 # Create API object
 api = tweepy.API(auth, wait_on_rate_limit=True,
