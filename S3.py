@@ -12,11 +12,11 @@ S3 = boto3.client(service_name="s3", region_name="eu-west-1", aws_access_key_id=
                   aws_secret_access_key=config.get("AWS", "AWSSecretKey"))
 
 
-FOLDER_NAME = "tweetanalyser/tweetanalyser"
-
-csv_files = glob.glob(
+def upload_to_bucket():
+  FOLDER_NAME = "tweetanalyser/tweetanalyser"
+  csv_files = glob.glob(
     "C:/Users/info/Desktop/projects/tweetanalyser/data/*.csv")
-for filename in csv_files:
+  for filename in csv_files:
     key = "%s/%s" % (FOLDER_NAME, os.path.basename(filename))
     print("Putting %s as %s" % (filename, key))
     S3.upload_file(filename, config.get(
