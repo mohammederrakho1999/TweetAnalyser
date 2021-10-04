@@ -52,6 +52,14 @@ def getTweetsPerCity(df):
     _dict = dict(df.groupby(["city"])["text"].count())
     return _dict
 
+def get_sentiment(text):
+    blob_object = TextBlob(text, analyzer=NaiveBayesAnalyzer())
+    analysis = blob_object.sentiment
+    if analysis.p_pos > 0.5:
+        return "positive"
+    else:
+        return "negative"
+
 
 result["word_list"] = result["text"].apply(lambda x: word(x))
 get_cities_country(result, "user_location")
