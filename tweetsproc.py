@@ -3,6 +3,7 @@ import numpy as np
 from nltk.corpus import stopwords
 import re
 from datetime import datetime
+from geopy.geocoders import Nominatim
 
 
 data = pd.read_csv("data/1.csv")
@@ -36,6 +37,20 @@ def get_cities_country(df, column_name):
     except Exception as e:
         pass
     return True
+
+
+def get_lat_log(df, column_name):
+    geolocator = Nominatim(user_agent="mohammed")
+    df["latitude"] = df[column_name].apply(
+        lambda x: geolocator.geocode(x).latitude)
+    df["longitude"] = df[column_name].apply(
+        lambda x: geolocator.geocode(x).longitude)
+    return True
+
+
+def getTweetsPerCity(df):
+    _dict = dict(df.groupby(["city"])["text"].count())
+    return _dict
 
 
 result["word_list"] = result["text"].apply(lambda x: word(x))
