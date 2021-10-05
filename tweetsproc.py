@@ -4,6 +4,8 @@ from nltk.corpus import stopwords
 import re
 from datetime import datetime
 from geopy.geocoders import Nominatim
+from textblob import TextBlob
+from textblob.sentiments import NaiveBayesAnalyzer
 
 
 data = pd.read_csv("data/1.csv")
@@ -47,10 +49,22 @@ def get_lat_log(df, column_name):
         lambda x: geolocator.geocode(x).longitude)
     return True
 
+# this function is for dash viz.
+# def getTweetsPerCity(df):
+    #_dict = dict(df.groupby(["city"])["text"].count())
+    # return _dict
 
-def getTweetsPerCity(df):
-    _dict = dict(df.groupby(["city"])["text"].count())
+
+def freq(_list):
+
+    # gives set of unique words
+    unique_words = set(_list)
+    _dict = dict()
+
+    for words in unique_words:
+        _dict[words] = _list.count(words)
     return _dict
+
 
 def get_sentiment(text):
     blob_object = TextBlob(text, analyzer=NaiveBayesAnalyzer())
@@ -61,5 +75,10 @@ def get_sentiment(text):
         return "negative"
 
 
-result["word_list"] = result["text"].apply(lambda x: word(x))
-get_cities_country(result, "user_location")
+def proccess_tweets(df):
+    df["word_list"] = df["text"].apply(lambda x: word(x))
+    get_cities_country(df, "user_location")
+    get_lat_log(df, "city")
+    df["sentiment"] = df["text"].apply(lambda x: get_sentiment(x))
+    df["freq"] = df["word_list"].apply(lambda x: freq(x))
+    return df.to_csv(f"C:/Users/info/Desktop/projects/tweetanalyser/data/tweets_clean.csv")
